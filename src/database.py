@@ -1,3 +1,4 @@
+# src/database.py
 import sqlite3
 
 conn = None
@@ -19,12 +20,12 @@ def init_db():
 def get_connection():
     global conn
     if conn is None:
-        raise RuntimeError("Database connection is not initialized")
+        raise RuntimeError("Database not initialized")
     return conn
 
 def update_score(player_id, score):
     cursor = get_connection().cursor()
-    cursor.execute("UPDATE players SET score = ? WHERE id = ?", (score, player_id))
+    cursor.execute("UPDATE players SET score = ? WHERE id = ? AND score < ?", (score, player_id, score))
     conn.commit()
 
 def get_leaderboard(limit=5):
