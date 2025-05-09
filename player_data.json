@@ -1,0 +1,9 @@
+{
+    "xp": 0,
+    "level": 1,
+    "upgrades": {
+        "extra_life": 22,
+        "shield_chance": 16,
+        "multi_shot_chance": 21
+    }
+}
