@@ -3,7 +3,7 @@
     "level": 1,
     "upgrades": {
         "extra_life": 1,
-        "shield_chance": 5,
-        "multi_shot_chance": 2
+        "shield_chance": 9,
+        "multi_shot_chance": 4
     }
 }

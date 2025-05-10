@@ -441,19 +441,18 @@ class BonusEffect(pygame.sprite.Sprite):
         super().__init__()
         self.effect_type = effect_type
 
+        # Заглушка для image, чтобы не падал .get_rect
+        self.image = pygame.Surface((1, 1), pygame.SRCALPHA)  # Прозрачный пиксель
 
         if effect_type == "shield":
-            self.image = pygame.transform.scale(pygame.image.load(ASSETS["shield_effect"]), (90, 70))
             self.sound = pygame.mixer.Sound(ASSETS["bonus_sound"])
         elif effect_type == "multi":
-            self.image = pygame.transform.scale(pygame.image.load(ASSETS["multi_effect"]), (90, 70))
             self.sound = pygame.mixer.Sound(ASSETS["bonus_sound"])
         elif effect_type == "life":
-            self.image = pygame.transform.scale(pygame.image.load(ASSETS["life_effect"]), (50, 50))
             self.sound = pygame.mixer.Sound(ASSETS["bonus_sound"])
         else:
-            self.image = pygame.Surface((1, 1))
             self.sound = None
+
         self.rect = self.image.get_rect(center=target_rect.center)
         self.timer = duration
 
