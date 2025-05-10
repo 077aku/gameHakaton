@@ -26,6 +26,7 @@ ASSETS = {
     'sparkle':'assets/sparkle.png',
     'bonus_sound':'assets/bonus_sound.wav',
     'bullet_image':'assets/bullet_image.png',
+    'menu_bonus':'assets/menu_bonus.png',
 }
 
 class Player(pygame.sprite.Sprite):
@@ -464,29 +465,43 @@ class BonusEffect(pygame.sprite.Sprite):
         if self.timer <= 0:
             self.kill()
 
+
+
+
 class UpgradeScreen:
     def __init__(self, screen, player_progress):
         self.screen = screen
-        self.font = pygame.font.SysFont("arial", 24)
+        self.font = pygame.font.Font("assets/emulogic.ttf", 15)
         self.selected = 0
         self.options = [
-            {"name": "Extra Life", "key": "extra_life"},
             {"name": "Shield Chance +10%", "key": "shield_chance"},
             {"name": "Multi-Shot Chance +10%", "key": "multi_shot_chance"},
+            {"name": "Extra Life", "key": "extra_life"},
         ]
         self.player_progress = player_progress
+
+        # Фон масштабирован под экран
+        self.background = pygame.transform.scale(
+            pygame.image.load("assets/menu_bonus.png"), (WIDTH, HEIGHT)
+        )
+
+        # Центры текстов для попадания в чёрные поля на фоне
+        self.text_positions = [
+            (WIDTH // 2 -40, 250),   # Shield
+            (WIDTH // 2 -35, 370),   # Multi-Shot
+            (WIDTH // 2 -40, 490),   # Extra Life
+        ]
 
     def run(self):
         running = True
         while running:
-            self.screen.fill((20, 20, 20))
-            title = self.font.render("Choose an Upgrade", True, (255, 255, 255))
-            self.screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 100))
+            self.screen.blit(self.background, (0, 0))
 
             for i, option in enumerate(self.options):
-                color = (255, 255, 0) if i == self.selected else (200, 200, 200)
+                color = (255, 255, 0) if i == self.selected else (255, 255, 255)
                 text = self.font.render(option["name"], True, color)
-                self.screen.blit(text, (WIDTH // 2 - text.get_width() // 2, 200 + i * 50))
+                text_x, text_y = self.text_positions[i]
+                self.screen.blit(text, (text_x - text.get_width() // 2, text_y))
 
             pygame.display.flip()
 
@@ -503,5 +518,3 @@ class UpgradeScreen:
                         self.player_progress["upgrades"][selected_upgrade] += 1
                         player_progress.save_progress(self.player_progress)
                         return
-
-
